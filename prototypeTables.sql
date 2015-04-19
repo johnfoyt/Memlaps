@@ -1,6 +1,8 @@
-drop table if exists User_Notes;
-drop table if exists Notes; 
-drop table if exists User_Info;
-create table User_Info(username char(20) PRIMARY KEY,email char(30), name char(20), password_hash numeric(16,0),passwordSalt numeric(16,0));
-create table Notes(title char(25), author char(20), comments char(50), notes TEXT, meta_data char(50), PRIMARY KEY(title,author),FOREIGN KEY (author) REFERENCES User_Info(username));
-create table User_Notes(username char(20), title char(25), PRIMARY KEY(username,title), FOREIGN KEY(username) References User_Info(username), FOREIGN KEY(title) References Notes(title));
+DROP TABLE IF EXISTS Notes; 
+DROP TABLE IF EXISTS Note_Share;
+DROP TABLE IF EXISTS Friends;
+DROP TABLE IF EXISTS User_Info;
+CREATE TABLE User_Info(username CHAR(30) PRIMARY KEY,email CHAR(40), name CHAR(20), password_hash CHAR(128));
+CREATE TABLE Notes(title CHAR(25), author CHAR(30), comments CHAR(50), notes TEXT,last_mod CHAR(40), meta_data CHAR(50), PRIMARY KEY(title,author),FOREIGN KEY (author) REFERENCES User_Info(username));
+CREATE TABLE Note_Share(author CHAR(30),title CHAR(25),share_W_user CHAR(30), PRIMARY KEY(author,title),FOREIGN KEY (author) REFERENCES User_Info(username),FOREIGN KEY (share_W_user) REFERENCES User_Info(username));
+CREATE TABLE Friends(username CHAR(30),friend CHAR(30),PRIMARY KEY (username,friend),FOREIGN KEY (username) REFERENCES User_Info(username),FOREIGN KEY (friend) REFERENCES User_Info(username));
